@@ -24,7 +24,7 @@ if (localStorage.getItem('cartProducts')) {
 }
 
 // --------------------
-// DOM Elements (may not exist on every page)
+// DOM Elements
 // --------------------
 const grid = document.getElementById("productGrid");
 const searchInput = document.getElementById("searchInput");
@@ -33,14 +33,21 @@ const yearEl = document.getElementById("year");
 const filterBtn = document.getElementById('filterBtn');
 const filterMenu = document.getElementById('filterMenu');
 const closeFilterX = document.querySelector('.closeFilterX');
-if (closeFilterX && filterMenu) {
-  closeFilterX.addEventListener('click', () => filterMenu.classList.remove('active'));
-}
 const cartGrid = document.getElementById("cartGrid");
 const cartTotalEl = document.getElementById("cartTotal");
 
+if (closeFilterX && filterMenu) {
+  closeFilterX.addEventListener('click', () => filterMenu.classList.remove('active'));
+}
+
+// --------------------
+// State Variables
+// --------------------
 let cartCount = products.reduce((sum, p) => sum + p.cur_count, 0);
 if (cartCountEl) cartCountEl.textContent = cartCount;
+
+let currentSearch = "";
+let currentFilter = "";
 
 // --------------------
 // Functions
@@ -55,7 +62,7 @@ function AddItemCount(pIndex) {
   cartCount = products.reduce((sum, p) => sum + p.cur_count, 0);
   if (cartCountEl) cartCountEl.textContent = cartCount;
   saveCart();
-  if (grid) renderProducts();
+  if (grid) renderProducts(currentSearch, currentFilter);
   if (cartGrid) renderCartProducts();
 }
 
@@ -66,7 +73,7 @@ function subtractItemCount(pIndex) {
     cartCount = products.reduce((sum, p) => sum + p.cur_count, 0);
     if (cartCountEl) cartCountEl.textContent = cartCount;
     saveCart();
-    if (grid) renderProducts();
+    if (grid) renderProducts(currentSearch, currentFilter);
     if (cartGrid) renderCartProducts();
   }
 }
@@ -103,7 +110,6 @@ function renderProducts(searchFilter = "", typeFilter = "") {
     const defBtn = card.querySelector('.defbutton');
     const plusBtn = card.querySelector('.plusbutton');
     const minusBtn = card.querySelector('.minusbutton');
-    const countDiv = card.querySelector('.item-count');
     const controls = card.querySelector('.item-controls');
 
     if (p.cur_count <= 0) {
@@ -139,14 +145,14 @@ function renderCartProducts() {
       row.innerHTML = `
         <div class="cart-item-info">
           <div class="cart-item-image">
-            <img src="${p.image}" alt='${p.name}' style= " max-width: 12vw; max-height: 12vh; width: auto; height: auto; ">
+            <img src="${p.image}" alt='${p.name}' style="max-width:12vw; max-height:12vh; width:auto; height:auto;">
           </div>
           <div class="cart-item-title">${p.name}</div>
           <div class="cart-item-price">€${p.price.toFixed(2)} x ${p.cur_count} = €${(p.price * p.cur_count).toFixed(2)}</div>
         </div>
         <div class="cart-item-controls">
           <button class="minus">-</button>
-          <div class="cart-item-count" style= " font-size:clamp(10px, 2vw, 20px); font-weight:bold;">${p.cur_count}</div>
+          <div class="cart-item-count" style="font-size:clamp(10px, 2vw, 20px); font-weight:bold;">${p.cur_count}</div>
           <button class="plus">+</button>
         </div>
       `;
@@ -164,26 +170,32 @@ function renderCartProducts() {
 }
 
 // --------------------
-// Filter Menu (Index Page)
+// Search & Filter Handlers
 // --------------------
+if (searchInput) {
+  searchInput.addEventListener('input', e => {
+    currentSearch = e.target.value;
+    renderProducts(currentSearch, currentFilter);
+  });
+}
 if (filterBtn && filterMenu) {
   filterBtn.addEventListener('click', () => filterMenu.classList.toggle('active'));
-  document.querySelectorAll('.filter-option').forEach(btn => {
+
+  const filterOptions = document.querySelectorAll('.filter-option');
+  filterOptions.forEach(btn => {
     btn.addEventListener('click', () => {
-      const type = btn.getAttribute('data-filter');
-      renderProducts("", type);
+      currentFilter = btn.getAttribute('data-filter');
+      
+      // Remove active class from all buttons
+      filterOptions.forEach(b => b.classList.remove('active'));
+      // Add active class to the selected button
+      if (currentFilter !== "") btn.classList.add('active');
+
+      renderProducts(currentSearch, currentFilter);
       filterMenu.classList.remove('active');
     });
   });
 }
-
-// --------------------
-// Search
-// --------------------
-if (searchInput) {
-  searchInput.addEventListener('input', e => renderProducts(e.target.value));
-}
-
 // --------------------
 // Year
 // --------------------
@@ -192,5 +204,5 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 // --------------------
 // Initial Render
 // --------------------
-renderProducts();
+renderProducts(currentSearch, currentFilter);
 renderCartProducts();
