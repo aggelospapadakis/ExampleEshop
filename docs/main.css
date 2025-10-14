@@ -215,6 +215,11 @@ footer {
 .filter-option:hover {
   background: #ddd;
 }
+.filter-option.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
 .closeFilterX {
   position: absolute;
   top: 20px;
