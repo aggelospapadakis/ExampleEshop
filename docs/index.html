@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="main.css" rel="stylesheet">
+  <script src="main.js" defer></script>
+  <title>ShopMate</title>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+    <button id="filterBtn">☰ Filters</button>
+    ShopMate
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search products...">
+      <div class="cart" id="cartIcon"  onclick="location.href = 'cart.html';">🛒<span class="cart-count" id="cartCount">0</span></div>
+    </div>
+  </header>
+  <div id="filterMenu" class="filter-menu">
+  <h3 style="padding-bottom: 5vh; ">Filter by Type<button class="closeFilterX">X</button></h3>
+  <button class="filter-option" data-filter="Gaming">Gaming</button>
+  <button class="filter-option" data-filter="Audio">Audio</button>
+  <button class="filter-option" data-filter="Wearables">Wearables</button>
+  <button class="filter-option" data-filter="Accessories">Accessories</button>
+  <button class="filter-option" data-filter="">Show All</button>
+  </div>
+  <main>
+    <h2>Featured Products</h2>
+    <div class="product-grid" id="productGrid">
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> ShopMate. All rights reserved.
+  </footer>
+</body>
+</html>
