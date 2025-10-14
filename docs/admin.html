@@ -49,6 +49,12 @@
       max-width: 150px;
       border-radius: 8px;
     }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -71,7 +77,7 @@
     <h2>Preview</h2>
     <div id="previewArea"></div>
   </div>
-
+  <footer>This is a proof-of-concept admin page. In a real application, product management would be handled securely on a backend database. Currently, changes are stored only in your browser's localStorage and are not visible to other users.</footer>
   <script>
     const form = document.getElementById('addProductForm');
     const preview = document.getElementById('previewArea');
