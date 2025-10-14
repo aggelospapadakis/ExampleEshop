@@ -168,7 +168,7 @@ footer {
   margin-top: 6px;
 }
 /* Filter button */
-#filterBtn {
+#filterBtn, #AdminBtn {
   background: #007bff;
   color: white;
   border: none;
