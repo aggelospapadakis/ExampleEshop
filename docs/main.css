@@ -168,7 +168,7 @@ footer {
   margin-top: 6px;
 }
 /* Filter button */
-#filterBtn, #AdminBtn {
+#filterBtn{
   background: #007bff;
   color: white;
   border: none;
@@ -178,6 +178,18 @@ footer {
   margin-right: 10px;
   font-size: 16px;
   transition: background 0.3s;
+}
+#AdminBtn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 16px;
+  transition: background 0.3s;
+  padding-top: 10px;
 }
 #filterBtn:hover {
   background: #0056b3;
